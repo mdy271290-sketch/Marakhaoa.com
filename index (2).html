@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>মারা খাওয়া ব্যাচ</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{--ink:#111;--y:#f7b500;--paper:#fbfaf6;--card:#fff;--text:#111;--muted:#5c5c55;--line:#e4e0d3;--g:#0f3d2e;--b:#12306b}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:12px}
+body{margin:0;background:var(--paper);color:var(--text);font:400 17px/1.7 "Hind Siliguri",system-ui,sans-serif}
+h1,h2,h3{font-weight:700;line-height:1.25;margin:0}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:14px 0;gap:10px;flex-wrap:wrap;border-bottom:2px solid var(--ink)}
+.bar b{font-size:21px}.bar div,.links{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:15px}
+.links a{color:var(--ink);text-decoration:none;font-weight:600;padding:2px 8px}.links a:hover{background:var(--y)}
+.hero{background:var(--y);padding-bottom:56px}
+.heroT{padding:48px 0 0;max-width:760px}
+.hero h1{font-size:clamp(46px,10vw,92px);letter-spacing:-1px}
+.hero p{font-size:19px;margin:14px 0 24px;max-width:34em}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:10px 22px;border:2px solid var(--ink);border-radius:4px;text-decoration:none;font:600 16px "Hind Siliguri",sans-serif;background:var(--ink);color:#fff;cursor:pointer}
+.btn:hover{background:#333}.btn.ghost{background:transparent;color:var(--ink)}.btn.sm{padding:5px 13px;font-size:14px}
+.btn.w{background:#fff;color:var(--ink);border-color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:-30px}
+.stats div{background:var(--card);border:2px solid var(--ink);padding:14px;text-align:center;box-shadow:5px 5px 0 var(--ink)}
+.stats b{display:block;font-size:30px}.stats span{color:var(--muted);font-size:14px}
+.split{display:grid;grid-template-columns:1fr 1fr;margin-top:56px}
+.blk{padding:44px 26px;color:#fff;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.blk h2{font-size:34px}.blk p{margin:0;opacity:.9;max-width:26em}
+#madrasa{background:var(--g)}#school{background:var(--b)}
+section.sec{padding:56px 0 0}h2.s{font-size:clamp(26px,5vw,38px);margin-bottom:10px}
+.note{font-size:14px;color:var(--muted)}
+#faces3d{width:100%;display:block;border:2px solid var(--ink);border-radius:6px;background:linear-gradient(#ffe083,var(--y));touch-action:pan-y;cursor:grab}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 18px}.filters .on{background:var(--y);color:var(--ink)}
+select,input,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--ink);border-radius:4px;background:var(--paper);color:var(--text);font:inherit}
+.filters select{width:auto}textarea{min-height:90px}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.person{background:var(--card);border:2px solid var(--ink);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:4px;transition:transform .15s}
+.av{width:64px;height:64px;border-radius:50%;background:var(--y);border:2px solid var(--ink);display:grid;place-items:center;font:700 28px "Hind Siliguri";object-fit:cover;overflow:hidden}
+.tag{align-self:flex-start;font-size:12px;padding:0 8px;border-radius:3px;color:#fff}
+.tag.m{background:var(--g)}.tag.s{background:var(--b)}
+.post{background:var(--card);border:2px solid var(--ink);border-radius:4px;padding:16px;margin-top:14px;white-space:pre-wrap}
+.post small{display:block;color:var(--muted)}
+footer{margin-top:64px;background:var(--ink);color:#bdbdb4;text-align:center;font-size:14px;padding:16px}
+dialog{border:0;border-radius:6px;padding:22px;width:min(600px,94vw);background:var(--card);color:var(--text);max-height:90vh}
+dialog.big{width:min(980px,96vw)}dialog::backdrop{background:rgba(0,0,0,.65)}
+label{display:block;font-weight:600;margin:11px 0 3px;font-size:15px}
+.row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.item{border-top:1px solid var(--line);padding:9px 0;font-size:14px;white-space:pre-wrap}.item b{display:block;font-size:15px}
+#gate{position:fixed;inset:0;z-index:99;background:var(--y)}#gate canvas{width:100%;height:100%;display:block}
+#gate p{position:absolute;top:9%;width:100%;text-align:center;margin:0;font:700 clamp(20px,4vw,32px) "Hind Siliguri",sans-serif}
+[hidden]{display:none!important}
+@media (max-width:760px){.split{grid-template-columns:1fr}.two{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <div class="bar"><b>🎓 মারা খাওয়া ব্যাচ</b>
+    <nav class="links"><a href="#madrasa">মাদ্রাসা</a><a href="#school">স্কুল</a><a href="#faces">৩D মুখ</a><a href="#people">শিক্ষার্থী</a><a href="#feed">সমাজ</a></nav>
+    <div><span id="who"></span><button class="btn sm" id="meBtn" hidden>আমার প্রোফাইল</button><button class="btn ghost sm" id="adminBtn" hidden>অ্যাডমিন</button><button class="btn sm" id="loginBtn">গুগল দিয়ে লগ ইন</button><button class="btn ghost sm" id="outBtn" hidden>লগ আউট</button></div></div>
+  <div class="heroT"><h1>মারা খাওয়া ব্যাচ</h1>
+    <p>মাদ্রাসা ও স্কুলের শিক্ষার্থীদের নিজেদের ঠিকানা। অ্যাকাউন্ট খুলুন, নিজের দক্ষতা জানান, কাজ শেয়ার করুন আর ব্যাচের সবার সাথে থাকুন।</p>
+    <div class="btns"><button class="btn" id="join">অ্যাকাউন্ট খুলুন</button><a class="btn ghost" href="#feed">সমাজ দেখুন</a></div></div>
+</div></header>
+<div class="wrap"><div class="stats"><div><b id="sT">–</b><span>মোট শিক্ষার্থী</span></div><div><b id="sM">–</b><span>মাদ্রাসা</span></div><div><b id="sS">–</b><span>স্কুল</span></div></div></div>
+
+<div class="split">
+  <div class="blk" id="madrasa">
+    <svg viewBox="0 0 120 120" width="110" aria-hidden="true"><path d="M20 100V60h80v40z" fill="#f7b500"/><path d="M30 60a30 30 0 0 1 60 0z" fill="#fff"/><rect x="58" y="22" width="4" height="12" fill="#fff"/><rect x="8" y="40" width="10" height="60" fill="#fff"/><path d="M8 40l5-14 5 14z" fill="#f7b500"/><rect x="102" y="40" width="10" height="60" fill="#fff"/><path d="M102 40l5-14 5 14z" fill="#f7b500"/><path d="M52 100V80a8 8 0 0 1 16 0v20z" fill="#0f3d2e"/></svg>
+    <h2>মাদ্রাসা</h2><p>কুরআন, হাদিস ও দ্বীনি শিক্ষার শিক্ষার্থীদের বিভাগ।</p><button class="btn w sm" data-sec="m">মাদ্রাসার শিক্ষার্থী দেখুন</button></div>
+  <div class="blk" id="school">
+    <svg viewBox="0 0 120 120" width="110" aria-hidden="true"><path d="M10 100V55l50-30 50 30v45z" fill="#fff"/><path d="M5 56L60 22l55 34z" fill="#f7b500"/><rect x="52" y="70" width="16" height="30" fill="#12306b"/><rect x="22" y="68" width="16" height="16" fill="#12306b"/><rect x="82" y="68" width="16" height="16" fill="#12306b"/><path d="M60 22V6" stroke="#fff" stroke-width="3"/><path d="M60 6h18l-5 5 5 5H60z" fill="#f7b500"/></svg>
+    <h2>স্কুল</h2><p>সাধারণ শিক্ষার শিক্ষার্থীদের বিভাগ, ১ম থেকে ১০ম শ্রেণি।</p><button class="btn w sm" data-sec="s">স্কুলের শিক্ষার্থী দেখুন</button></div>
+</div>
+
+<main class="wrap">
+  <section class="sec" id="faces"><h2 class="s">২৫ জনের ৩D মুখ</h2><p class="note">ঘুরিয়ে দেখুন। ছবি টেনে বা সোয়াইপ করে ঘোরান। খালি আসনগুলো আপনার জন্য।</p><canvas id="faces3d"></canvas></section>
+  <section class="sec" id="people"><h2 class="s">শিক্ষার্থীরা</h2>
+    <div class="filters"><button class="btn sm on" data-sec="">সবাই</button><button class="btn ghost sm" data-sec="m">মাদ্রাসা</button><button class="btn ghost sm" data-sec="s">স্কুল</button><select id="fc" aria-label="ক্লাস"><option value="">সব ক্লাস</option></select></div>
+    <div class="people" id="peopleBox"></div></section>
+  <section class="sec" id="feed"><h2 class="s">সমাজ</h2>
+    <p class="note">নিজের কাজ, লেখা বা অর্জন শেয়ার করুন। দেখতে ও লিখতে গুগল দিয়ে লগ ইন লাগবে।</p>
+    <textarea id="pt" placeholder="আপনি কী করেছেন?"></textarea><div class="row"><button class="btn" id="pGo">পোস্ট করুন</button></div><p class="note" id="pm"></p><div id="posts"></div></section>
+</main>
+<footer>© ২০২৬ মারা খাওয়া ব্যাচ</footer>
+
+<dialog id="meD"><h3 id="meT">আমার প্রোফাইল</h3>
+  <label for="pn">১) নাম</label><input id="pn">
+  <div class="two"><div><label for="ps">২) বিভাগ</label><select id="ps"><option value="">বেছে নিন</option><option value="m">মাদ্রাসা</option><option value="s">স্কুল</option></select></div>
+  <div><label for="pc">ক্লাস</label><select id="pc"></select></div></div>
+  <label for="pr">৩) রোল নম্বর</label><input id="pr" inputmode="numeric">
+  <label for="pk">৪) দক্ষতা (ঐচ্ছিক)</label><input id="pk" placeholder="যেমন: কবিতা, আঁকা, ক্রিকেট">
+  <label for="pb">আমার সম্পর্কে / কাজ (ঐচ্ছিক)</label><textarea id="pb"></textarea>
+  <h3 style="margin-top:20px;font-size:18px">জন্ম নিবন্ধন ও ব্যক্তিগত তথ্য</h3>
+  <p class="note">এই অংশ শুধু আপনি ও অ্যাডমিন দেখতে পারবেন। অন্য কেউ নয়।</p>
+  <div class="two"><div><label for="bn">জন্ম নিবন্ধন নম্বর</label><input id="bn" inputmode="numeric"></div><div><label for="bd">জন্ম তারিখ</label><input id="bd" type="date"></div>
+  <div><label for="bf">পিতার নাম</label><input id="bf"></div><div><label for="bm">মাতার নাম</label><input id="bm"></div>
+  <div><label for="bp">অভিভাবকের ফোন</label><input id="bp" inputmode="tel"></div><div><label for="ba">ঠিকানা</label><input id="ba"></div></div>
+  <p class="note" id="mm"></p><div class="row"><button class="btn" id="mSave">সেভ করুন</button><button class="btn ghost" data-close>বন্ধ করুন</button></div></dialog>
+
+<dialog id="adD" class="big"><h3>অ্যাডমিন প্যানেল</h3><p class="note" id="adS"></p>
+  <div class="row"><button class="btn sm" id="csv">CSV ডাউনলোড</button><button class="btn ghost sm" data-close>বন্ধ করুন</button></div>
+  <div id="adList"></div></dialog>
+
+<div id="gate" hidden><canvas id="gate3d"></canvas><p id="gateT"></p></div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,collection,addDoc,getDocs,deleteDoc,query,orderBy,limit,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* ১) Firebase কনসোল থেকে পাওয়া কনফিগ এখানে বসান */
+const firebaseConfig={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",projectId:"YOUR_PROJECT",appId:"YOUR_APP_ID"};
+const ADMIN_EMAIL="sabibirahmed9@gmail.com";
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const el=(t,x,c)=>{const e=document.createElement(t);if(x!=null)e.textContent=x;if(c)e.className=c;return e};
+const CL={m:["নূরানী","ইবতেদায়ী","দাখিল ৬ষ্ঠ","দাখিল ৭ম","দাখিল ৮ম","দাখিল ৯ম","দাখিল ১০ম","আলিম"],s:["১ম","২য়","৩য়","৪র্থ","৫ম","৬ষ্ঠ","৭ম","৮ম","৯ম","১০ম"]};
+const SN={m:"মাদ্রাসা",s:"স্কুল"};
+let user=null,isAdmin=false,mine=null,all=[],fsec="";
+const login=async()=>{gate.start();try{await signInWithPopup(auth,new GoogleAuthProvider());gate.done()}catch(e){gate.stop()}};
+const need=async()=>{if(user)return true;await login();return !!user};
+$$("[data-close]").forEach(b=>b.onclick=()=>b.closest("dialog").close());
+$("#loginBtn").onclick=login;$("#outBtn").onclick=()=>signOut(auth);
+
+function fillCls(sel,sec,v){sel.textContent="";(CL[sec]||[]).forEach(c=>{const o=el("option",c);o.value=c;sel.append(o)});if(v)sel.value=v}
+$("#ps").onchange=()=>fillCls($("#pc"),$("#ps").value);
+async function openMe(){
+  if(!await need())return;
+  const p=mine||{},pv=(await getDoc(doc(db,"private",user.uid))).data()||{};
+  $("#pn").value=p.name||user.displayName||"";$("#ps").value=p.sec||"";fillCls($("#pc"),p.sec,p.cls);
+  $("#pr").value=p.roll||"";$("#pk").value=p.skills||"";$("#pb").value=p.bio||"";
+  [["bn","bn"],["bd","bd"],["bf","bf"],["bm","bm"],["bp","bp"],["ba","ba"]].forEach(([i,k])=>$("#"+i).value=pv[k]||"");
+  $("#meT").textContent=mine?"প্রোফাইল সংশোধন":"অ্যাকাউন্ট খুলুন";$("#mm").textContent="";$("#meD").showModal();
+}
+$("#join").onclick=openMe;$("#meBtn").onclick=openMe;
+$("#mSave").onclick=async()=>{
+  const name=$("#pn").value.trim(),sec=$("#ps").value,cls=$("#pc").value,roll=$("#pr").value.trim();
+  if(!name||!sec||!cls||!roll){$("#mm").textContent="নাম, বিভাগ, ক্লাস ও রোল নম্বর অবশ্যই দিন।";return}
+  try{
+    await setDoc(doc(db,"profiles",user.uid),{uid:user.uid,name,sec,cls,roll,skills:$("#pk").value.trim(),bio:$("#pb").value.trim(),photo:user.photoURL||"",at:serverTimestamp()});
+    await setDoc(doc(db,"private",user.uid),{uid:user.uid,email:user.email,bn:$("#bn").value.trim(),bd:$("#bd").value,bf:$("#bf").value.trim(),bm:$("#bm").value.trim(),bp:$("#bp").value.trim(),ba:$("#ba").value.trim()});
+    $("#mm").textContent="সেভ হয়েছে।";await loadAll();
+  }catch(e){$("#mm").textContent="সেভ হয়নি। আবার চেষ্টা করুন।"}
+};
+
+function avatar(p){if(p.photo){const i=el("img",null,"av");i.src=p.photo;i.alt="";i.referrerPolicy="no-referrer";return i}return el("div",Array.from(p.name||"?")[0],"av")}
+function drawPeople(){
+  const box=$("#peopleBox");box.textContent="";
+  if(!user){box.append(el("p","শিক্ষার্থীদের দেখতে গুগল দিয়ে লগ ইন করুন।","note"));return}
+  const l=all.filter(p=>(!fsec||p.sec===fsec)&&(!$("#fc").value||p.cls===$("#fc").value));
+  if(!l.length)box.append(el("p","এই বিভাগে এখনো কেউ নেই।","note"));
+  l.forEach(p=>{const c=el("article",null,"person tilt");c.append(avatar(p),el("b",p.name),el("span",SN[p.sec],"tag "+p.sec),el("span",p.cls+" · রোল "+p.roll));
+    if(p.skills)c.append(el("span","দক্ষতা: "+p.skills,"note"));if(p.bio)c.append(el("span",p.bio,"note"));box.append(c)});
+}
+$$("[data-sec]").forEach(b=>b.onclick=()=>{fsec=b.dataset.sec;$$(".filters [data-sec]").forEach(x=>{x.classList.toggle("on",x.dataset.sec===fsec);x.classList.toggle("ghost",x.dataset.sec!==fsec)});fillCls($("#fc"),fsec);$("#fc").prepend(Object.assign(el("option","সব ক্লাস"),{value:""}));$("#fc").value="";drawPeople();if(b.closest(".blk"))$("#people").scrollIntoView()});
+$("#fc").onchange=drawPeople;
+
+async function loadAll(){
+  mine=null;all=[];
+  if(user){try{const q=await getDocs(query(collection(db,"profiles"),limit(300)));q.forEach(d=>{const p=d.data();all.push(p);if(p.uid===user.uid)mine=p})}catch(e){}}
+  $("#sT").textContent=user?all.length:"–";$("#sM").textContent=user?all.filter(p=>p.sec==="m").length:"–";$("#sS").textContent=user?all.filter(p=>p.sec==="s").length:"–";
+  drawPeople();buildFaces(all);loadPosts();
+}
+async function loadPosts(){
+  const box=$("#posts");box.textContent="";if(!user)return;
+  try{const q=await getDocs(query(collection(db,"posts"),orderBy("at","desc"),limit(30)));
+    if(q.empty)box.append(el("p","এখনো কোনো পোস্ট নেই। প্রথম পোস্টটি আপনার হোক।","note"));
+    q.forEach(d=>{const p=d.data(),c=el("div",null,"post"),h=el("small",p.name+" · "+(SN[p.sec]||"")+" · "+(p.cls||""));c.append(h,document.createTextNode(p.text));
+      if(isAdmin||p.uid===user.uid){const x=el("button","মুছুন","btn ghost sm");x.style.marginTop="8px";x.onclick=async()=>{if(confirm("পোস্টটি মুছবেন?")){await deleteDoc(doc(db,"posts",d.id));loadPosts()}};c.append(document.createElement("br"),x)}
+      $("#posts").append(c)})}catch(e){box.append(el("p","পোস্ট লোড হয়নি।","note"))}
+}
+$("#pGo").onclick=async()=>{
+  const t=$("#pt").value.trim(),m=$("#pm");if(!t)return;if(!await need())return;
+  if(!mine){m.textContent="পোস্ট করার আগে অ্যাকাউন্ট খুলুন।";openMe();return}
+  try{await addDoc(collection(db,"posts"),{uid:user.uid,name:mine.name,sec:mine.sec,cls:mine.cls,text:t,at:serverTimestamp()});$("#pt").value="";m.textContent="";loadPosts()}catch(e){m.textContent="পোস্ট হয়নি।"}
+};
+
+/* অ্যাডমিন প্যানেল: শুধু ADMIN_EMAIL */
+let rows=[];
+$("#adminBtn").onclick=async()=>{
+  $("#adD").showModal();const box=$("#adList");box.textContent="লোড হচ্ছে…";rows=[];
+  try{const pv={};(await getDocs(collection(db,"private"))).forEach(d=>pv[d.id]=d.data());
+    const q=await getDocs(collection(db,"profiles"));box.textContent="";
+    q.forEach(d=>{const p=d.data(),v=pv[d.id]||{};rows.push({...p,...v});
+      const i=el("div",null,"item"),b=el("b",p.name+" – "+SN[p.sec]+", "+p.cls+", রোল "+p.roll);
+      i.append(b,document.createTextNode("ইমেইল: "+(v.email||"")+"\nজন্ম নিবন্ধন: "+(v.bn||"–")+" · জন্ম তারিখ: "+(v.bd||"–")+"\nপিতা: "+(v.bf||"–")+" · মাতা: "+(v.bm||"–")+"\nফোন: "+(v.bp||"–")+" · ঠিকানা: "+(v.ba||"–")+"\n"));
+      const x=el("button","প্রোফাইল মুছুন","btn ghost sm");x.onclick=async()=>{if(confirm(p.name+" এর প্রোফাইল মুছবেন?")){await deleteDoc(doc(db,"profiles",d.id));await deleteDoc(doc(db,"private",d.id));i.remove();loadAll()}};i.append(x);box.append(i)});
+    $("#adS").textContent="মোট "+rows.length+" জন শিক্ষার্থী";
+  }catch(e){box.textContent="লোড করা যায়নি।"}
+};
+$("#csv").onclick=()=>{
+  const k=["name","sec","cls","roll","skills","email","bn","bd","bf","bm","bp","ba"],q=s=>'"'+String(s||"").replace(/"/g,'""')+'"';
+  const b=new Blob(["\ufeff"+k.join(",")+"\n"+rows.map(r=>k.map(x=>q(r[x])).join(",")).join("\n")],{type:"text/csv"}),a=el("a");a.href=URL.createObjectURL(b);a.download="students.csv";a.click();
+};
+
+/* ৩D: ২৫টি মুখের ঘূর্ণায়মান রিং */
+let sh=null;
+function tex(p){const c=document.createElement("canvas");c.width=240;c.height=320;const x=c.getContext("2d");x.fillStyle=p.sec==="m"?"#0f3d2e":p.sec==="s"?"#12306b":"#555";x.fillRect(0,0,240,320);
+  x.fillStyle="#f7b500";x.beginPath();x.arc(120,110,66,0,7);x.fill();x.fillStyle="#111";x.font="700 70px 'Hind Siliguri',sans-serif";x.textAlign="center";x.fillText(Array.from(p.name)[0],120,135);
+  x.fillStyle="#fff";x.font="700 26px 'Hind Siliguri',sans-serif";x.fillText(p.name.length>12?p.name.slice(0,12)+"…":p.name,120,228);x.font="500 20px 'Hind Siliguri',sans-serif";x.fillText(p.cls?p.cls+" · রোল "+p.roll:"আপনি হতে পারেন",120,262);return new THREE.CanvasTexture(c)}
+function buildFaces(list){
+  const cv=$("#faces3d");if(!window.THREE)return;
+  if(!sh){const r=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}),s=new THREE.Scene(),c=new THREE.PerspectiveCamera(40,2,.1,60),g=new THREE.Group();c.position.set(0,.4,11.5);s.add(g);sh={g,ry:0,drag:false,x:0};
+    const fit=()=>{const w=cv.clientWidth,h=Math.round(Math.max(w*.5,280));r.setSize(w,h,false);cv.style.height=h+"px";c.aspect=w/h;c.updateProjectionMatrix()};fit();addEventListener("resize",fit);
+    cv.onpointerdown=e=>{sh.drag=true;sh.x=e.clientX;cv.setPointerCapture(e.pointerId)};cv.onpointerup=()=>sh.drag=false;cv.onpointermove=e=>{if(sh.drag){sh.ry+=(e.clientX-sh.x)*.01;sh.x=e.clientX}};
+    (function loop(){requestAnimationFrame(loop);if(!sh.drag)sh.ry+=.004;g.rotation.y=sh.ry;r.render(s,c)})()}
+  sh.g.clear();const n=25;
+  for(let i=0;i<n;i++){const p=list[i]||{name:"খালি আসন",sec:"",cls:"",roll:""},m=new THREE.Mesh(new THREE.PlaneGeometry(1.5,2),new THREE.MeshBasicMaterial({map:tex(p),side:THREE.DoubleSide})),a=i/n*Math.PI*2;
+    m.position.set(Math.sin(a)*6,Math.sin(i*1.7)*.35,Math.cos(a)*6);m.rotation.y=a;sh.g.add(m)}
+}
+/* লগ ইন ৩D দৃশ্য: গুগল সাইন বোর্ডের ওপর হাঁটা মানুষ, শেষে পাহাড়ের গর্তে ঢোকা */
+const gate=(()=>{
+  let R,S,C,P,legs,raf,st="",t=0,x=-1.6,dir=1;const box=$("#gate");
+  const mat=c=>new THREE.MeshLambertMaterial({color:c});
+  function init(){
+    S=new THREE.Scene();S.background=new THREE.Color(0xf7b500);C=new THREE.PerspectiveCamera(50,1,.1,100);C.position.set(2.8,2.6,8.5);C.lookAt(2.8,1.2,0);
+    R=new THREE.WebGLRenderer({canvas:$("#gate3d"),antialias:true});const l=new THREE.DirectionalLight(0xffffff,.8);l.position.set(3,6,5);S.add(new THREE.HemisphereLight(0xffffff,0x886600,1),l);
+    const g=new THREE.Mesh(new THREE.PlaneGeometry(40,20),mat(0xfbfaf6));g.rotation.x=-Math.PI/2;S.add(g);
+    const mt=new THREE.Mesh(new THREE.ConeGeometry(4,5,7),mat(0x2a2a2a));mt.position.set(5.5,2.5,-3);S.add(mt);
+    const h=new THREE.Mesh(new THREE.CircleGeometry(.7,24),new THREE.MeshBasicMaterial({color:0}));h.scale.y=1.3;h.position.set(5.5,.9,.5);S.add(h);
+    const cv=document.createElement("canvas");cv.width=512;cv.height=128;const c2=cv.getContext("2d");c2.fillStyle="#111";c2.fillRect(0,0,512,128);c2.fillStyle="#f7b500";c2.font="700 46px 'Hind Siliguri',sans-serif";c2.textAlign="center";c2.fillText("Google দিয়ে লগ ইন",256,82);
+    const k=mat(0x111111),sg=new THREE.Mesh(new THREE.BoxGeometry(4.2,.4,1.6),[k,k,new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cv)}),k,k,k]);sg.position.y=.2;S.add(sg);
+    P=new THREE.Group();const b=new THREE.Mesh(new THREE.CylinderGeometry(.22,.28,.8,12),mat(0x1a73e8)),hd=new THREE.Mesh(new THREE.SphereGeometry(.22,16,12),mat(0xe0ac80));b.position.y=.9;hd.position.y=1.5;
+    legs=[-1,1].map(s=>{const m=new THREE.Mesh(new THREE.BoxGeometry(.18,.5,.2),mat(0x222222));m.geometry.translate(0,-.25,0);m.position.set(s*.12,.5,0);return m});P.add(b,hd,...legs);S.add(P);
+  }
+  function loop(){raf=requestAnimationFrame(loop);t+=.14;const w=Math.sin(t)*.6;legs[0].rotation.x=w;legs[1].rotation.x=-w;P.children[0].position.y=.9+Math.abs(Math.sin(t))*.03;
+    if(st==="wait"){x+=.03*dir;if(x>1.7)dir=-1;if(x<-1.7)dir=1;P.position.set(x,.4,0);P.rotation.y=dir>0?1.57:-1.57}
+    if(st==="go"){x+=.05;P.rotation.y=1.57;P.position.x=x;if(x>2.1){P.position.y+=(0-P.position.y)*.12;P.position.z+=(.5-P.position.z)*.06}
+      if(x>5.1){const s=P.scale.x*.93;P.scale.setScalar(s);if(s<.06){st="end";setTimeout(stop,350)}}}
+    R.render(S,C)}
+  function start(){if(matchMedia("(prefers-reduced-motion:reduce)").matches||!window.THREE)return;if(!R)init();cancelAnimationFrame(raf);
+    box.hidden=false;R.setSize(innerWidth,innerHeight);C.aspect=innerWidth/innerHeight;C.updateProjectionMatrix();x=-1.6;dir=1;P.scale.setScalar(1);P.position.set(x,.4,0);st="wait";$("#gateT").textContent="গুগল দিয়ে লগ ইন চলছে…";loop()}
+  function done(){if(box.hidden)return;st="go";$("#gateT").textContent="স্বাগতম!"}
+  function stop(){cancelAnimationFrame(raf);box.hidden=true;st=""}
+  return{start,done,stop}
+})();
+document.addEventListener("pointermove",e=>{const el0=e.target.closest&&e.target.closest(".tilt");$$(".tilt").forEach(x=>{if(x!==el0)x.style.transform=""});if(!el0||e.pointerType==="touch")return;const r=el0.getBoundingClientRect();el0.style.transform="perspective(700px) rotateY("+((e.clientX-r.left)/r.width-.5)*14+"deg) rotateX("+(-((e.clientY-r.top)/r.height-.5)*14)+"deg)"});
+
+
+onAuthStateChanged(auth,u=>{
+  user=u;isAdmin=!!u&&u.emailVerified&&u.email.toLowerCase()===ADMIN_EMAIL;
+  $("#who").textContent=u?(u.displayName||u.email):"";$("#loginBtn").hidden=!!u;$("#outBtn").hidden=!u;$("#meBtn").hidden=!u;$("#adminBtn").hidden=!isAdmin;
+  loadAll().then(()=>{if(u&&!mine&&!$("#meD").open)openMe()});
+});
+fillCls($("#fc"),"");$("#fc").prepend(Object.assign(el("option","সব ক্লাস"),{value:""}));buildFaces([]);
+</script>
+</body>
+</html>

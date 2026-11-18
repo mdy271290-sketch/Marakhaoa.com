@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && request.auth.token.email_verified == true
+        && request.auth.token.email == 'sabibirahmed9@gmail.com';
+    }
+    // প্রোফাইল: শুধু লগ ইন করা সদস্যরা দেখবে; নিজের প্রোফাইল নিজে লিখবে
+    match /profiles/{uid} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && request.auth.uid == uid && request.resource.data.uid == uid;
+      allow delete: if isAdmin() || (signedIn() && request.auth.uid == uid);
+    }
+    // জন্ম নিবন্ধনসহ ব্যক্তিগত তথ্য: শুধু মালিক ও অ্যাডমিন
+    match /private/{uid} {
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == uid);
+      allow create, update: if signedIn() && request.auth.uid == uid;
+      allow delete: if isAdmin() || (signedIn() && request.auth.uid == uid);
+    }
+    match /posts/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow delete: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+    }
+  }
+}
