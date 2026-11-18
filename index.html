@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>মারা খাওয়া ব্যাচ</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -70,16 +70,44 @@ button.chip{cursor:pointer;font:inherit;font-size:14px;background:#fff}button.ch
 [hidden]{display:none!important}
 @media (max-width:760px){.split{grid-template-columns:1fr}.two{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.bookbar{display:block;width:100%;border:0;background:var(--ink);color:var(--y);font:700 16px "Hind Siliguri",sans-serif;padding:9px 12px;cursor:pointer}
+.dance{display:flex;gap:6px;font-size:34px;margin-top:16px}
+.dance span{display:inline-block;transform-origin:50% 100%;animation:dn 1.1s ease-in-out infinite}
+.dance span:nth-child(2n){animation-direction:reverse}
+@keyframes dn{0%,100%{transform:rotate(-12deg) translateY(0)}50%{transform:rotate(12deg) translateY(-10px)}}
+.dadaBox{display:flex;gap:16px;align-items:center;background:var(--card);border:2px solid var(--ink);border-radius:6px;padding:16px;box-shadow:5px 5px 0 var(--ink)}
+.dadaBox .dance{margin:0;font-size:44px;flex:none}.bubble{flex:1;font-size:18px;font-weight:600;min-height:3.4em}
+.cover{position:relative;overflow:hidden;height:150px;background-size:cover;background-position:center}
+.cover .dance{position:absolute;right:10px;bottom:4px;margin:0;font-size:30px}
+body{padding-bottom:64px}
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;background:var(--ink);padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px))}
+#nav button{flex:1;background:none;border:0;color:#fff;font:600 12px "Hind Siliguri",sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center}
+#nav i{font-style:normal;font-size:22px}
+#appD{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border-radius:0;padding:0}
+#appD[open]{display:flex;flex-direction:column}
+.appH{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--y);border-bottom:2px solid var(--ink)}.appH b{font-size:19px}
+#appB{flex:1;overflow:auto;padding:14px 16px}
+.chat{height:calc(100dvh - 205px);overflow:auto;display:flex;flex-direction:column;gap:8px;padding:4px 0}
+.msg{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:6px 12px;max-width:85%;align-self:flex-start;white-space:pre-wrap}
+.msg.me{align-self:flex-end;background:var(--y)}.msg small{display:block;color:var(--muted)}.msg img{max-width:100%;display:block;margin-top:6px;border-radius:6px}
+.cbar{display:flex;gap:6px;align-items:center;margin-top:8px}.cbar label{margin:0;cursor:pointer}.cbar label.on{background:var(--y)}
+#adTabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:8px}
+#adTabs .btn{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.25;padding:8px 4px;font-size:13px}
+#adTabs i{font-style:normal;font-size:26px}
+@media (max-width:760px){#profD{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border-radius:0}}
+@media (prefers-reduced-motion:reduce){.dance span{animation:none}}
 </style>
 </head>
 <body>
+<button class="bookbar" id="bookBar">📚 তুমি কি বই পড়ুয়া? এখানে চাপো</button>
 <header class="hero"><div class="wrap">
   <div class="bar"><b>🎓 মারা খাওয়া ব্যাচ</b>
     <nav class="links"><a href="#madrasa">মাদ্রাসা</a><a href="#school">স্কুল</a><a href="#faces">৩D মুখ</a><a href="#people">শিক্ষার্থী</a><a href="#feed">সমাজ</a></nav>
     <div><span id="who"></span><button class="btn sm" id="meBtn" hidden>আমার প্রোফাইল</button><button class="btn ghost sm" id="adminBtn" hidden>অ্যাডমিন</button><button class="btn sm" id="loginBtn">গুগল দিয়ে লগ ইন</button><button class="btn ghost sm" id="outBtn" hidden>লগ আউট</button></div></div>
   <div class="heroT"><h1 id="h1">মারা খাওয়া ব্যাচ</h1>
     <p id="hp">মাদ্রাসা ও স্কুলের শিক্ষার্থীদের নিজেদের ঠিকানা। অ্যাকাউন্ট খুলুন, নিজের দক্ষতা জানান, কাজ শেয়ার করুন আর ব্যাচের সবার সাথে থাকুন।</p>
-    <div class="btns"><button class="btn" id="join">অ্যাকাউন্ট খুলুন</button><a class="btn ghost" href="#feed">সমাজ দেখুন</a></div></div>
+    <div class="btns"><button class="btn" id="join">অ্যাকাউন্ট খুলুন</button><a class="btn ghost" href="#feed">সমাজ দেখুন</a></div><div class="dance" id="dance1"></div></div>
 </div></header>
 <div class="wrap"><div class="stats"><div><b id="sT">–</b><span>মোট শিক্ষার্থী</span></div><div><b id="sM">–</b><span>মাদ্রাসা</span></div><div><b id="sS">–</b><span>স্কুল</span></div></div></div>
 
@@ -94,6 +122,7 @@ button.chip{cursor:pointer;font:inherit;font-size:14px;background:#fff}button.ch
 </div>
 
 <main class="wrap">
+  <section class="sec" id="dada"><h2 class="s">😄 রসের দাদা</h2><div class="dadaBox"><div class="dance" id="dadaF"></div><div class="bubble" id="joke"></div></div></section>
   <section class="sec" id="skills-s"><div class="wrap" style="padding:0"><h2 class="s">তোমার দক্ষতা কী?</h2><p class="note">আইকনে চাপ দিয়ে তোমার কাজ অ্যাডমিনের কাছে পাঠাও। পছন্দ হলে সমাজে প্রকাশ হবে।</p><div class="skills" id="skills"></div></div></section>
   <section class="sec" id="faces"><h2 class="s">২৫ জনের ৩D মুখ</h2><p class="note">ঘুরিয়ে দেখুন। ছবি টেনে বা সোয়াইপ করে ঘোরান। খালি আসনগুলো আপনার জন্য।</p><canvas id="faces3d"></canvas></section>
   <section class="sec" id="people"><h2 class="s">শিক্ষার্থীরা</h2>
@@ -107,6 +136,7 @@ button.chip{cursor:pointer;font:inherit;font-size:14px;background:#fff}button.ch
 
 <dialog id="meD"><h3 id="meT"></h3>
   <div class="row" style="align-items:center"><div id="pv"></div><div><label for="pf" style="margin:0">📷 ছবি বদলান</label><input id="pf" type="file" accept="image/*"></div></div>
+  <label for="pcv">🖼️ প্রোফাইল ব্যানার (গ্যালারি থেকে)</label><input id="pcv" type="file" accept="image/*">
   <label for="pn">নাম</label><input id="pn">
   <div class="two"><div><label for="ps">বিভাগ</label><select id="ps"><option value="">বেছে নিন</option><option value="m">মাদ্রাসা</option><option value="s">স্কুল</option></select></div><div><label for="pc">ক্লাস</label><select id="pc"></select></div></div>
   <label for="pr">রোল নম্বর</label><input id="pr" inputmode="numeric">
@@ -125,14 +155,17 @@ button.chip{cursor:pointer;font:inherit;font-size:14px;background:#fff}button.ch
   <div class="row"><button class="btn" id="sGo">জমা দিন</button><button class="btn ghost" data-close>বন্ধ করুন</button></div></dialog>
 
 <dialog id="adD" class="big"><h3>⚙️ অ্যাডমিন প্যানেল</h3>
-  <div class="tabs" id="adTabs"><button class="btn sm on" data-t="st">👥 শিক্ষার্থী</button><button class="btn ghost sm" data-t="sub">📥 জমা</button><button class="btn ghost sm" data-t="bn">🖼️ ব্যানার</button><button class="btn ghost sm" data-t="pr">📢 প্রচার-লিঙ্ক</button><button class="btn ghost sm" data-close>✖ বন্ধ</button></div>
+  <div class="tabs" id="adTabs"><button class="btn sm on" data-t="st"><i>👥</i>শিক্ষার্থী</button><button class="btn ghost sm" data-t="sub"><i>📥</i>জমা</button><button class="btn ghost sm" data-t="bn"><i>🖼️</i>হিরো ব্যানার</button><button class="btn ghost sm" data-t="bk"><i>📚</i>বই-ব্যানার</button><button class="btn ghost sm" data-t="mg"><i>📰</i>ম্যাগাজিন</button><button class="btn ghost sm" data-t="cp"><i>📮</i>অভিযোগ</button><button class="btn ghost sm" data-t="jk"><i>😄</i>দাদার রস</button><button class="btn ghost sm" data-t="pr"><i>📢</i>প্রচার-লিঙ্ক</button><button class="btn ghost sm" data-close><i>✖</i>বন্ধ</button></div>
   <div id="adList"></div></dialog>
 
+<nav id="nav"><button data-go="home"><i>🏠</i>হোম</button><button data-go="chat"><i>💬</i>আড্ডা</button><button data-go="mag"><i>📰</i>ম্যাগাজিন</button><button data-go="comp"><i>📮</i>অভিযোগ</button><button data-go="me"><i>👤</i>আমি</button></nav>
+<dialog id="bookD"><div id="bookB"></div><div class="row"><a class="btn" id="bookGo" target="_blank" rel="noopener">বই দেখুন ও কিনুন</a><button class="btn ghost" data-close>বন্ধ করুন</button></div></dialog>
+<dialog id="appD"><div class="appH"><b id="appT"></b><button class="btn sm" data-close>✖ বন্ধ</button></div><div id="appB"></div></dialog>
 <div id="gate" hidden><canvas id="gate3d"></canvas><p id="gateT"></p></div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import{getFirestore,doc,getDoc,setDoc,collection,addDoc,getDocs,deleteDoc,query,orderBy,limit,where,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import{getFirestore,doc,getDoc,setDoc,collection,addDoc,getDocs,deleteDoc,query,orderBy,limit,where,onSnapshot,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* ১) Firebase কনসোল থেকে পাওয়া কনফিগ এখানে বসান */
 const firebaseConfig={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",projectId:"YOUR_PROJECT",appId:"YOUR_APP_ID"};
@@ -159,9 +192,9 @@ async function openMe(p,id){
   if(!await need())return;
   const own=!id;id=id||user.uid;p=p||(own?mine:null)||{};
   const pv=(await getDoc(doc(db,"private",id))).data()||{};
-  ed={id,own,email:pv.email||(own?user.email:""),av:p.avatar||p.photo||(own&&!mine?user.photoURL||"":""),icons:[...(p.icons||[])]};
+  ed={id,own,email:pv.email||(own?user.email:""),av:p.avatar||p.photo||(own&&!mine?user.photoURL||"":""),icons:[...(p.icons||[])],cover:p.cover||""};
   $("#pn").value=p.name||(own?user.displayName||"":"");$("#ps").value=p.sec||"";fillCls($("#pc"),p.sec,p.cls);
-  $("#pr").value=p.roll||"";$("#pk").value=p.skills||"";$("#pb").value=p.bio||"";$("#pf").value="";
+  $("#pr").value=p.roll||"";$("#pk").value=p.skills||"";$("#pb").value=p.bio||"";$("#pf").value="";$("#pcv").value="";
   ["bn","bd","bf","bm","bp","ba"].forEach(k=>$("#"+k).value=pv[k]||"");
   $("#meT").textContent=own?(mine?"✏️ প্রোফাইল সংশোধন":"অ্যাকাউন্ট খুলুন"):(p.name?"✏️ সম্পাদনা: "+p.name:"➕ নতুন আইডি");
   $("#mm").textContent="";setPv();drawIcons();$("#meD").showModal();
@@ -172,7 +205,7 @@ $("#mSave").onclick=async()=>{
   const name=$("#pn").value.trim(),sec=$("#ps").value,cls=$("#pc").value,roll=$("#pr").value.trim();
   if(!name||!sec||!cls||!roll){$("#mm").textContent="নাম, বিভাগ, ক্লাস ও রোল নম্বর অবশ্যই দিন।";return}
   try{
-    await setDoc(doc(db,"profiles",ed.id),{uid:ed.id,name,sec,cls,roll,skills:$("#pk").value.trim(),bio:$("#pb").value.trim(),icons:ed.icons,avatar:ed.av,at:serverTimestamp()});
+    await setDoc(doc(db,"profiles",ed.id),{uid:ed.id,name,sec,cls,roll,skills:$("#pk").value.trim(),bio:$("#pb").value.trim(),icons:ed.icons,avatar:ed.av,cover:ed.cover||"",at:serverTimestamp()});
     await setDoc(doc(db,"private",ed.id),{uid:ed.id,email:ed.email,bn:$("#bn").value.trim(),bd:$("#bd").value,bf:$("#bf").value.trim(),bm:$("#bm").value.trim(),bp:$("#bp").value.trim(),ba:$("#ba").value.trim()});
     $("#mm").textContent="সেভ হয়েছে।";await loadAll();if($("#adD").open)admin(adTab)
   }catch(e){$("#mm").textContent="সেভ হয়নি। আবার চেষ্টা করুন।"}
@@ -193,7 +226,7 @@ const ms=x=>x&&x.toMillis?x.toMillis():0;
 async function showProfile(p){
   const b=$("#profB");b.textContent="";const top=el("div",null,"ptop"),inf=el("div");
   inf.append(el("h2",p.name),el("span",(SN[p.sec]||"")+" · "+p.cls+" · রোল "+p.roll,"note"));top.append(avatar(p,"big"),inf);
-  b.append(el("div",null,"cover "+(p.sec||"")),top);
+  const cv=el("div",null,"cover "+(p.sec||""));if(okImg(p.cover))cv.style.backgroundImage='url("'+p.cover+'")';dancers(cv);b.append(cv,top);
   const ic=el("div");(p.icons||[]).forEach(k=>{const s=SK.find(x=>x[0]===k);if(s)ic.append(el("span",s[1]+" "+s[2],"chip"))});b.append(ic);
   if(p.bio)b.append(el("p",p.bio));if(p.skills)b.append(el("p","অন্যান্য দক্ষতা: "+p.skills,"note"));
   if(user&&(p.uid===user.uid||isAdmin)){const e=el("button","✏️ প্রোফাইল সম্পাদনা","btn sm");e.onclick=()=>{$("#profD").close();openMe(p,p.uid)};b.append(e)}
@@ -288,7 +321,7 @@ async function admin(tab){
       rm.onclick=()=>{img="";pv.removeAttribute("src");sv.click()};w.append(sv,rm);
       box.append(el("label","🖼️ ব্যাকগ্রাউন্ড ব্যানার ছবি"),pv,f,el("label","শিরোনাম"),t1,el("label","উপশিরোনাম"),t2,w,m);
     }
-    if(tab==="pr"){
+    if(await adminExtra(tab,box))return;if(tab==="pr"){
       box.textContent="";
       const form=el("div",null,"two"),ic=el("input"),tx=el("input"),ur=el("input"),ad=el("button","➕ যোগ করুন","btn sm");ic.placeholder="আইকন (যেমন 📚)";tx.placeholder="লেখা (যেমন: তুমি কি বই পড়তে ভালোবাসো?)";ur.placeholder="লিঙ্ক https://...";
       ad.onclick=async()=>{if(!tx.value.trim()||!okUrl(ur.value.trim())){alert("লেখা ও https:// দিয়ে শুরু হওয়া লিঙ্ক দিন।");return}
@@ -347,12 +380,97 @@ const gate=(()=>{
 document.addEventListener("pointermove",e=>{const el0=e.target.closest&&e.target.closest(".tilt");$$(".tilt").forEach(x=>{if(x!==el0)x.style.transform=""});if(!el0||e.pointerType==="touch")return;const r=el0.getBoundingClientRect();el0.style.transform="perspective(700px) rotateY("+((e.clientX-r.left)/r.width-.5)*14+"deg) rotateX("+(-((e.clientY-r.top)/r.height-.5)*14)+"deg)"});
 
 
+
+/* নতুন: অ্যাপ-স্ক্রিন, কার্টুন, বই-পড়ুয়া ব্যানার, আড্ডা, ম্যাগাজিন, অভিযোগ */
+const okImg=u=>typeof u==="string"&&u.startsWith("data:image/");
+function dancers(c,l){(l||["🕺","💃","🐵","🐰"]).forEach((e,i)=>{const s=el("span",e);s.style.animationDelay=i*.2+"s";c.append(s)})}
+dancers($("#dance1"));dancers($("#dadaF"),["👴","🕺","🤪"]);
+$("#pcv").onchange=async e=>{const f=e.target.files[0];if(f){try{ed.cover=await shrink(f,900,.6)}catch(x){$("#mm").textContent="ব্যানার পড়া যায়নি।"}}};
+const BK={text:"শব্দের ভেতরে যাঁদের বসবাস, পাতার গন্ধে যাঁদের সকাল, সেই বই পড়ুয়া বন্ধুদের জন্য আমাদের এই ছোট্ট আঙিনা। আপনাদের জন্য রয়েছে বিনামূল্যে ই-বুক, আর যাঁরা প্রিয় বইটি নিজের করে নিতে চান, তাঁদের পাশে আছে mamarboy.com।",url:"https://mamarboy.com"};
+let books={},ji=0,jokes=["শিক্ষক: সবচেয়ে দ্রুত কী চলে? ছাত্র: স্যার, পরীক্ষার আগের রাত!","মা: পড়তে বসেছিস? ছেলে: হ্যাঁ মা, বই খুলে ঘুমের প্রস্তুতি নিচ্ছি।","টিফিনের ঘণ্টা বাজলে সবচেয়ে মনোযোগী ছাত্রও সবচেয়ে দ্রুত দরজায় পৌঁছায়।"];
+const showJoke=()=>{$("#joke").textContent=jokes[ji++%jokes.length]};setInterval(showJoke,6000);showJoke();
+async function loadExtra(){
+  try{const s=await getDoc(doc(db,"config","books"));books=s.exists()?s.data():{}}catch(e){books={}}
+  try{const l=[];(await getDocs(collection(db,"jokes"))).forEach(d=>l.push(d.data().text));if(l.length){jokes=l;ji=0;showJoke()}}catch(e){}
+}
+$("#bookBar").onclick=()=>{const b=$("#bookB");b.textContent="";
+  if(okImg(books.banner)){const i=el("img");i.src=books.banner;i.alt="";i.style.cssText="max-width:100%;border-radius:6px;display:block;margin-bottom:12px";b.append(i)}
+  b.append(el("h3","📚 বই পড়ুয়াদের জন্য"),el("p",books.text||BK.text));$("#bookGo").href=okUrl(books.url)?books.url:BK.url;$("#bookD").showModal()};
+
+const APP=$("#appD"),AB=$("#appB");let unsub=null;
+const stopLive=()=>{if(unsub){unsub();unsub=null}};APP.addEventListener("close",stopLive);
+function screen(t,fn){stopLive();$("#appT").textContent=t;AB.textContent="";fn(AB);if(!APP.open)APP.showModal()}
+$$("#nav [data-go]").forEach(b=>b.onclick=async()=>{const g=b.dataset.go;
+  if(g==="home"){APP.close();scrollTo({top:0});return}
+  if(!await need())return;
+  if(g==="chat")chat();if(g==="mag")mag();if(g==="comp")comp();
+  if(g==="me"){APP.close();mine?showProfile(mine):openMe()}});
+
+function chat(){screen("💬 লাইভ আড্ডা",b=>{
+  const list=el("div",null,"chat"),bar=el("div",null,"cbar"),ta=el("input"),pk=el("label","📷","btn ghost sm"),f=el("input"),go=el("button","পাঠান","btn sm");let img="";
+  ta.placeholder="কিছু লিখুন…";ta.maxLength=400;ta.style.width="auto";ta.style.flex="1";f.type="file";f.accept="image/*";f.hidden=true;pk.append(f);
+  f.onchange=async()=>{if(f.files[0]){try{img=await shrink(f.files[0],700,.6);pk.classList.add("on")}catch(e){}}};
+  go.onclick=async()=>{const t=ta.value.trim();if(!t&&!img)return;if(!mine){alert("আড্ডায় লিখতে আগে অ্যাকাউন্ট খুলুন।");return}
+    try{await addDoc(collection(db,"chats"),{uid:user.uid,name:mine.name,text:t,img,at:serverTimestamp()});ta.value="";img="";f.value="";pk.classList.remove("on")}catch(e){alert("পাঠানো যায়নি।")}};
+  ta.onkeydown=e=>{if(e.key==="Enter")go.onclick()};
+  bar.append(pk,ta,go);b.append(list,bar);
+  unsub=onSnapshot(query(collection(db,"chats"),orderBy("at","desc"),limit(60)),s=>{
+    const a=[];s.forEach(d=>a.push({id:d.id,...d.data()}));a.reverse();list.textContent="";
+    if(!a.length)list.append(el("p","এখনো কেউ কিছু লেখেনি। আড্ডা শুরু করুন!","note"));
+    a.forEach(m=>{const me=m.uid===user.uid,c=el("div",null,"msg"+(me?" me":""));c.append(el("small",m.name||""));if(m.text)c.append(el("span",m.text));
+      if(okImg(m.img)){const im=el("img");im.src=m.img;im.alt="";c.append(im)}
+      if(isAdmin||me){const x=el("button","✕","lnk");x.title="মুছুন";x.onclick=()=>deleteDoc(doc(db,"chats",m.id));c.append(x)}list.append(c)});
+    list.scrollTop=list.scrollHeight},()=>{list.textContent="আড্ডা লোড হয়নি।"})})}
+
+function mag(){screen("📰 ম্যাগাজিন",async b=>{
+  const t=el("input"),x=el("textarea"),m=el("p",null,"note"),go=el("button","লেখা পাঠান","btn sm");t.placeholder="শিরোনাম";x.placeholder="মজার লেখা, গল্প বা ছড়া…";
+  go.onclick=async()=>{if(!mine){m.textContent="আগে অ্যাকাউন্ট খুলুন।";return}if(!t.value.trim()||!x.value.trim()){m.textContent="শিরোনাম ও লেখা দিন।";return}
+    try{await addDoc(collection(db,"magazine"),{uid:user.uid,name:mine.name,title:t.value.trim(),text:x.value.trim(),status:"pending",at:serverTimestamp()});t.value=x.value="";m.textContent="জমা হয়েছে! অ্যাডমিন অনুমোদন দিলে ছাপা হবে।"}catch(e){m.textContent="জমা হয়নি।"}};
+  b.append(el("h3","✍️ লেখা দিন"),t,x,el("div",null,"row"),m);b.lastChild.previousSibling.append(go);
+  const h=el("h3","📖 ছাপা হওয়া লেখা");h.style.marginTop="18px";b.append(h);
+  try{const l=[];(await getDocs(query(collection(db,"magazine"),where("status","==","published")))).forEach(d=>l.push(d.data()));l.sort((a,c)=>ms(c.at)-ms(a.at));
+    if(!l.length)b.append(el("p","এখনো কোনো লেখা ছাপা হয়নি।","note"));
+    l.forEach(p=>{const c=el("div",null,"post");c.append(el("b",p.title),el("small","✍️ "+p.name),document.createTextNode(p.text));b.append(c)})}catch(e){b.append(el("p","লেখা লোড হয়নি।","note"))}})}
+
+function comp(){screen("📮 ড্যাগার মুন্সি অভিযোগ বক্স",b=>{
+  const x=el("textarea"),m=el("p",null,"note"),go=el("button","অভিযোগ জমা দিন","btn sm");x.placeholder="যা বলতে চাও, এখানে লেখো…";x.maxLength=1500;
+  go.onclick=async()=>{if(!x.value.trim())return;
+    try{await addDoc(collection(db,"complaints"),{uid:user.uid,name:(mine&&mine.name)||user.displayName||"",text:x.value.trim(),at:serverTimestamp()});x.value="";m.textContent="জমা হয়েছে। শুধু অ্যাডমিন এটা পড়বেন।"}catch(e){m.textContent="জমা হয়নি। আবার চেষ্টা করুন।"}};
+  b.append(el("p","তোমার অভিযোগ বা অসুবিধার কথা এখানে লেখো। শুধু অ্যাডমিন দেখতে পারবেন।","note"),x,el("div",null,"row"),m);b.lastChild.previousSibling.append(go)})}
+
+async function adminExtra(tab,box){
+  if(tab==="bk"){
+    box.textContent="";let img=books.banner||"";
+    const pv=el("img"),f=el("input"),tx=el("textarea"),u=el("input"),m=el("p",null,"note"),sv=el("button","💾 সেভ","btn sm"),rm=el("button","🗑️ ব্যানার সরান","btn ghost sm"),w=el("div",null,"row");
+    pv.alt="";pv.style.cssText="max-width:100%;max-height:160px;display:block;margin-bottom:8px;border-radius:6px";if(okImg(img))pv.src=img;
+    f.type="file";f.accept="image/*";f.onchange=async()=>{if(f.files[0]){img=await shrink(f.files[0],1200,.7);pv.src=img}};
+    tx.value=books.text||BK.text;u.value=books.url||BK.url;
+    sv.onclick=async()=>{if(!okUrl(u.value.trim())){m.textContent="https:// দিয়ে শুরু হওয়া লিঙ্ক দিন।";return}
+      try{books={banner:img,text:tx.value.trim(),url:u.value.trim()};await setDoc(doc(db,"config","books"),books);m.textContent="সেভ হয়েছে।"}catch(e){m.textContent="সেভ হয়নি।"}};
+    rm.onclick=()=>{img="";pv.removeAttribute("src");sv.click()};w.append(sv,rm);
+    box.append(el("label","📚 বই-পড়ুয়া ব্যানার ছবি (গ্যালারি থেকে)"),pv,f,el("label","লেখা"),tx,el("label","লিঙ্ক"),u,w,m);return true}
+  if(tab==="cp"){
+    const l=[];(await getDocs(collection(db,"complaints"))).forEach(d=>l.push({id:d.id,...d.data()}));l.sort((a,b)=>ms(b.at)-ms(a.at));box.textContent="";
+    if(!l.length)box.append(el("p","কোনো অভিযোগ নেই।","note"));
+    l.forEach(c=>{const i=el("div",null,"item");i.append(el("b","📮 "+(c.name||"")),document.createTextNode(c.text+"\n"),ib("🗑️",async()=>{await deleteDoc(doc(db,"complaints",c.id));admin("cp")},"মুছুন"));box.append(i)});return true}
+  if(tab==="mg"){
+    const l=[];(await getDocs(collection(db,"magazine"))).forEach(d=>l.push({id:d.id,...d.data()}));l.sort((a,b)=>ms(b.at)-ms(a.at));box.textContent="";
+    if(!l.length)box.append(el("p","কোনো লেখা জমা পড়েনি।","note"));
+    l.forEach(c=>{const{id,...r}=c,i=el("div",null,"item");i.append(el("b","📰 "+c.title+" – "+c.name+(c.status==="published"?" ✅ ছাপা হয়েছে":" ⏳ অপেক্ষায়")),document.createTextNode(c.text+"\n"));
+      if(c.status!=="published")i.append(ib("✅",async()=>{await setDoc(doc(db,"magazine",id),{...r,status:"published"});admin("mg")},"ছাপুন"));
+      i.append(ib("🗑️",async()=>{await deleteDoc(doc(db,"magazine",id));admin("mg")},"মুছুন"));box.append(i)});return true}
+  if(tab==="jk"){
+    box.textContent="";const tx=el("input"),ad=el("button","➕ যোগ করুন","btn sm");tx.placeholder="দাদার নতুন মজার কথা…";
+    ad.onclick=async()=>{if(!tx.value.trim())return;await addDoc(collection(db,"jokes"),{text:tx.value.trim(),at:serverTimestamp()});await loadExtra();admin("jk")};box.append(tx,ad);
+    (await getDocs(collection(db,"jokes"))).forEach(d=>{const i=el("div",d.data().text,"item");i.append(ib("🗑️",async()=>{await deleteDoc(doc(db,"jokes",d.id));await loadExtra();admin("jk")},"মুছুন"));box.append(i)});return true}
+  return false}
+
 onAuthStateChanged(auth,u=>{
   user=u;isAdmin=!!u&&u.emailVerified&&u.email.toLowerCase()===ADMIN_EMAIL;
   $("#who").textContent=u?(u.displayName||u.email):"";$("#loginBtn").hidden=!!u;$("#outBtn").hidden=!u;$("#meBtn").hidden=!u;$("#adminBtn").hidden=!isAdmin;
   loadAll().then(()=>{if(u&&!mine&&!$("#meD").open)openMe()});
 });
-fillCls($("#fc"),"");$("#fc").prepend(Object.assign(el("option","সব ক্লাস"),{value:""}));buildFaces([]);buildSkills();loadSite();
+fillCls($("#fc"),"");$("#fc").prepend(Object.assign(el("option","সব ক্লাস"),{value:""}));buildFaces([]);buildSkills();loadSite();loadExtra();
 </script>
 </body>
 </html>

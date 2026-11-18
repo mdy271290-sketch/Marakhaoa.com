@@ -39,5 +39,25 @@ service cloud.firestore {
       allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
       allow update, delete: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
     }
+    // লাইভ আড্ডা (লেখা ও ছবি)
+    match /chats/{id} {
+      allow read: if signedIn();
+      allow create: if ok() && request.resource.data.uid == request.auth.uid && request.resource.data.text.size() <= 400;
+      allow delete: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+    }
+    // ড্যাগার মুন্সি অভিযোগ বক্স: শুধু অ্যাডমিন পড়বে
+    match /complaints/{id} {
+      allow create: if ok() && request.resource.data.uid == request.auth.uid && request.resource.data.text.size() <= 1500;
+      allow read, delete: if isAdmin();
+    }
+    // ম্যাগাজিন: অনুমোদিত লেখা সবাই দেখবে
+    match /magazine/{id} {
+      allow read: if isAdmin() || resource.data.status == 'published' || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if ok() && request.resource.data.uid == request.auth.uid && request.resource.data.status == 'pending';
+      allow update: if isAdmin();
+      allow delete: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+    }
+    // রসের দাদার কথা
+    match /jokes/{id} { allow read: if true; allow write: if isAdmin(); }
   }
 }
