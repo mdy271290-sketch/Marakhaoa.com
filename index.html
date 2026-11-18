@@ -162,13 +162,19 @@ body{padding-bottom:64px}
 <dialog id="bookD"><div id="bookB"></div><div class="row"><a class="btn" id="bookGo" target="_blank" rel="noopener">বই দেখুন ও কিনুন</a><button class="btn ghost" data-close>বন্ধ করুন</button></div></dialog>
 <dialog id="appD"><div class="appH"><b id="appT"></b><button class="btn sm" data-close>✖ বন্ধ</button></div><div id="appB"></div></dialog>
 <div id="gate" hidden><canvas id="gate3d"></canvas><p id="gateT"></p></div>
+<script>
+window.__bar=function(t){var d=document.getElementById("errbar");if(!d){d=document.createElement("div");d.id="errbar";d.style.cssText="position:fixed;top:0;left:0;right:0;z-index:200;pointer-events:none;background:#b00020;color:#fff;padding:10px 14px;font:600 15px sans-serif";document.body.appendChild(d)}d.textContent=t};
+addEventListener("error",function(e){window.__bar("সমস্যা: "+(e.message||"স্ক্রিপ্ট লোড হয়নি"))});
+setTimeout(function(){if(!window.__ok)window.__bar("সাইটের স্ক্রিপ্ট লোড হয়নি। ইন্টারনেট বা Firebase লিঙ্ক ঠিক আছে কিনা দেখুন।")},5000);
+</script>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import{getFirestore,doc,getDoc,setDoc,collection,addDoc,getDocs,deleteDoc,query,orderBy,limit,where,onSnapshot,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* ১) Firebase কনসোল থেকে পাওয়া কনফিগ এখানে বসান */
 const firebaseConfig={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",projectId:"YOUR_PROJECT",appId:"YOUR_APP_ID"};
+if(/^YOUR_/.test(firebaseConfig.apiKey))window.__bar("Firebase কনফিগ বসানো হয়নি: index.html-এর firebaseConfig-এ আসল মান দিন।");
 const ADMIN_EMAIL="sabibirahmed9@gmail.com";
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
@@ -176,7 +182,14 @@ const el=(t,x,c)=>{const e=document.createElement(t);if(x!=null)e.textContent=x;
 const CL={m:["নূরানী","ইবতেদায়ী","দাখিল ৬ষ্ঠ","দাখিল ৭ম","দাখিল ৮ম","দাখিল ৯ম","দাখিল ১০ম","আলিম"],s:["১ম","২য়","৩য়","৪র্থ","৫ম","৬ষ্ঠ","৭ম","৮ম","৯ম","১০ম"]};
 const SN={m:"মাদ্রাসা",s:"স্কুল"};
 let user=null,isAdmin=false,mine=null,all=[],fsec="";
-const login=async()=>{gate.start();try{await signInWithPopup(auth,new GoogleAuthProvider());gate.done()}catch(e){gate.stop()}};
+const login=async()=>{gate.start();try{await signInWithPopup(auth,new GoogleAuthProvider());gate.done()}catch(e){gate.stop();if(e&&e.code==="auth/popup-blocked"){try{await signInWithRedirect(auth,new GoogleAuthProvider());return}catch(x){}}loginErr(e)}};
+function loginErr(e){const c=(e&&e.code)||"",ua=navigator.userAgent;let m="লগ ইন হয়নি ("+c+")।";
+  if(/FBAN|FBAV|Messenger|Instagram|Line\//i.test(ua))m="ফেসবুক/মেসেঞ্জারের ভেতরের ব্রাউজারে গুগল লগ ইন চলে না। তিন-ডট মেনু থেকে ব্রাউজারে খুলুন।";
+  else if(c==="auth/unauthorized-domain")m="এই ডোমেইন Firebase-এ অনুমোদিত নয়। Firebase → Authentication → Settings → Authorized domains-এ সাইটের ডোমেইন যোগ করুন।";
+  else if(c==="auth/operation-not-allowed")m="Firebase-এ Google সাইন-ইন চালু করা নেই।";
+  else if(/api-key/.test(c))m="Firebase কনফিগের apiKey ঠিক নেই।";
+  else if(c==="auth/popup-closed-by-user"||c==="auth/cancelled-popup-request")return;
+  window.__bar(m);setTimeout(()=>{const d=document.getElementById("errbar");if(d)d.remove()},15000)}
 const need=async()=>{if(user)return true;await login();return !!user};
 $$("[data-close]").forEach(b=>b.onclick=()=>b.closest("dialog").close());
 $("#loginBtn").onclick=login;$("#outBtn").onclick=()=>signOut(auth);
@@ -208,7 +221,7 @@ $("#mSave").onclick=async()=>{
     await setDoc(doc(db,"profiles",ed.id),{uid:ed.id,name,sec,cls,roll,skills:$("#pk").value.trim(),bio:$("#pb").value.trim(),icons:ed.icons,avatar:ed.av,cover:ed.cover||"",at:serverTimestamp()});
     await setDoc(doc(db,"private",ed.id),{uid:ed.id,email:ed.email,bn:$("#bn").value.trim(),bd:$("#bd").value,bf:$("#bf").value.trim(),bm:$("#bm").value.trim(),bp:$("#bp").value.trim(),ba:$("#ba").value.trim()});
     $("#mm").textContent="সেভ হয়েছে।";await loadAll();if($("#adD").open)admin(adTab)
-  }catch(e){$("#mm").textContent="সেভ হয়নি। আবার চেষ্টা করুন।"}
+  }catch(e){$("#mm").textContent="সেভ হয়নি ("+(e.code||"")+")"+(e.code==="permission-denied"?" — Firestore Rules পাবলিশ করা হয়নি।":"")}
 };
 
 function avatar(p,c){const s=p.avatar||p.photo,k="av"+(c?" "+c:"");if(s){const i=el("img",null,k);i.src=s;i.alt="";i.referrerPolicy="no-referrer";return i}return el("div",Array.from(p.name||"?")[0],k)}
@@ -470,7 +483,7 @@ onAuthStateChanged(auth,u=>{
   $("#who").textContent=u?(u.displayName||u.email):"";$("#loginBtn").hidden=!!u;$("#outBtn").hidden=!u;$("#meBtn").hidden=!u;$("#adminBtn").hidden=!isAdmin;
   loadAll().then(()=>{if(u&&!mine&&!$("#meD").open)openMe()});
 });
-fillCls($("#fc"),"");$("#fc").prepend(Object.assign(el("option","সব ক্লাস"),{value:""}));buildFaces([]);buildSkills();loadSite();loadExtra();
+fillCls($("#fc"),"");$("#fc").prepend(Object.assign(el("option","সব ক্লাস"),{value:""}));buildFaces([]);buildSkills();loadSite();loadExtra();window.__ok=1;
 </script>
 </body>
 </html>
